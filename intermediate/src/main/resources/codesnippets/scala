@@ -1,0 +1,28 @@
+val names = "PepperedShrimp" ::  "PeanutChicken" ::  "OmeletteAuFromage" ::  "Omelette" ::  "Pancakes" ::  "PancakesWithNuttela" ::Nil
+
+names.foreach{
+  name =>
+    val com = "Recipe  recipe%-19s = Recipe.find(n%s);".format(name, name)
+    println(com)
+}
+
+
+names.foreach{
+  name =>
+    val com = "new Meal(recipe%-19s, true, false, 12);" format(name)
+    println(com)
+}
+
+
+(dev -> tutorial)
+#!/bin/bash
+
+rm -rf project
+rm -rf Intermediate/src/main/resources/codesnippets
+
+cp -r eclipse/* intermediate/
+cp -r eclipse/* beginner/
+rm -rf eclipse
+
+find . -maxdepth 1 -name  "*.bat" -delete
+find . -maxdepth 1 -name  "*.sh" -delete

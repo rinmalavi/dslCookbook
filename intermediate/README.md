@@ -1,4 +1,4 @@
-###Intermediate
+#Intermediate
 
 In the beginners tutorial we saw how to declare a root
 and perform some basic operations on it.
@@ -92,7 +92,7 @@ Some beverages to go with it:
 
 Now we have something to offer.
 
-##Snowflake
+### Snowflake
 Lets make our data a bit presentable. Meal as it is now is an aggregate of more
 than one data source lets make this data presentable
 
@@ -122,7 +122,7 @@ a search:
       int budget;
     }
 
-##Building a search
+### Building a search
 
 To get an instance of ``SearchBuilder`` simply call it from repository you wish to search over.
 
@@ -175,14 +175,15 @@ print their names:
     Pancakes with nuttela
 
 None of parameters are mandatory, they can be left out.
-If all parameters are left out calling search over that builder is equivalent to
-``findAll()``.
+If all parameters are left out calling search over that builder is equivalent to ``findAll()``.
+
+
 ----------------------------
 
 This is how we might want to present our data to the world, its all information
 on a single meal that we might want to, lets say, print on a price list.
 
-##Report
+## Report
 
 So lets make a simple Price List. For this we use ``report`` concept.
 
@@ -213,7 +214,7 @@ Use it like this:
     Jucie 11
     Water 12
 
-## Templater
+### Templater
 We could output this data to ``txt`` file.
 This file could look like this:
 
@@ -299,10 +300,10 @@ To format recipe ingredients we'll change it a bit introducing a new concept.
       }
     }
 
-Values do not have a unique identification,
+Value does not have a unique identification,
 it exists only as a field in objects that contain it.
 
-####calculated
+#### calculated
 is a property that comes as a result of one or more operations on some or none of
 objects fields. It can be persistable, but we will get to that later.
 
@@ -350,5 +351,14 @@ Now, if we were to print chefsMeals
 
 ------
 todo:
-For the conclusion of this part we have take a look at [dslCookbook @ github](https://github.com/ngs-doo/dslCookbook)
-to see how could this price list look like if we made it with designer template
+For the conclusion of this part we take a look at [dslCookbook @ github](https://github.com/ngs-doo/dslCookbook)
+to see how could this price list look like if we made it with designer template with 
+    report PriceListPretty
+    {
+      Timestamp  date;
+      Beverage [] beverages 'it => it.available';
+      MealInfo [] chefsMeals 'it => it.cheffsMeal & it.available';
+      MealInfo [] meals 'it => it.available';
+
+      templater createPriceList 'PriceListTemplate.docx';
+    }

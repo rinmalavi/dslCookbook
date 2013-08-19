@@ -295,7 +295,7 @@ In dsl:
 
 In Java:
 
-    for( Recipe recipe: new hasNoPeanuts().search()){
+    for (Recipe recipe : new hasNoPeanuts().search()){
         info(recipe.getName());
 
 Recipes containing no mention of word peanut are:
@@ -324,7 +324,7 @@ This might be too much results for one page, so you will set the offset, and lim
 
 To be able to search over ingredients searching for custom ingredient add following to our root:
 
-    specification hasIngredient 
+    specification hasIngredient
         'it => it.ingredients.Any(ingredient => ingredient.ToLower().Contains(what))'
         {
             String what;

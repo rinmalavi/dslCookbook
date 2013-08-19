@@ -51,10 +51,10 @@ Lets modify our dsl to describe it:
     root Meal(name)
     {
       Cookbook.Recipe(name)* recipe;
-      String                name;
-      boolean               available;
+      String                 name;
+      boolean                available;
 
-      int                   price;
+      int                    price;
     }
 
 This way we expressed that ``Meal`` holds a reference to ``Recipe`` and field ``name``
@@ -352,7 +352,8 @@ Now, if we were to print chefsMeals
 ------
 todo:
 For the conclusion of this part we take a look at [dslCookbook @ github](https://github.com/ngs-doo/dslCookbook)
-to see how could this price list look like if we made it with designer template with 
+to see how could this price list look like if we made it with designer template with
+
     report PriceListPretty
     {
       Timestamp  date;

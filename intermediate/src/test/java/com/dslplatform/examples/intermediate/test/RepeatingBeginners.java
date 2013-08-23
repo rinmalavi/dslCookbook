@@ -20,8 +20,7 @@ public class RepeatingBeginners extends OpenRestaurantInTest{
         restaurant
             .cleanDB()
             .insertCheffsRecipes()
-            .insertCheffsMeal()
-            .insertSomeBeverages();
+            .insertCheffsMeal();
         final List<Meal> remoteMeals = mealRepository.findAll().get();
 
         // collect meal names
@@ -29,10 +28,31 @@ public class RepeatingBeginners extends OpenRestaurantInTest{
         for (final Meal meal : remoteMeals) {
             String name = meal.getName();
             remoteNames.add(name);
+            info(name);
         }
 
         final String [] expectedMealNames = { nPepperedShrimp, nPeanutChicken, nOmeletteAuFromage};
         for( final String mealname : expectedMealNames)    assertTrue(remoteNames.contains(mealname));
+    }
+
+    @Test
+    public void insetSomeBeverages() throws Exception {
+        restaurant
+            .cleanDB()
+            .insertSomeBeverages();
+        final List<Beverage> remoteBeverage = beverageRepository.findAll().get();
+
+        // collect meal names
+        final List<String> remoteNames = new ArrayList<String>();
+        for (final Beverage beverage : remoteBeverage) {
+            String name = beverage.getName();
+            remoteNames.add(name);
+            info(name);
+        }
+
+        final String [] expectedBeverageNames = { "beer", "juice", "water"};
+        for( final String beveragename : expectedBeverageNames)
+            assertTrue(remoteNames.contains(beveragename));
     }
 
     /** How to use specification to query over an object. */

@@ -3,7 +3,7 @@ import Keys._
 
 object Cookbook extends Build {
 
-  lazy val dslClientHttp = ProjectRef( file("../dsl-client-java/client/"), "http")
+  lazy val dslClientHttp = ProjectRef( file("../dsl-client-java/code/"), "http")
   
   lazy val beginner = cookProject("Beginner") 
 

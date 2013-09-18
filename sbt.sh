@@ -39,7 +39,7 @@ done
 JVM_PARAMS="$JVM_PARAMS $LIFT_RUN_MODE"
 
 GRUJ_PATH="./project/strap/gruj_vs_sbt-launch-0.13.x.jar"
-RUN_CMD="java $JVM_PARAMS -jar $GRUJ_PATH @project/strap/sbt.boot.properties $LOG_LEVEL $SBT_PARAMS"
+RUN_CMD="java $JVM_PARAMS -jar $GRUJ_PATH $LOG_LEVEL $SBT_PARAMS"
 
 LOOPING=true
 while $LOOPING

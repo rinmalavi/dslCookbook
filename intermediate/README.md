@@ -1,4 +1,4 @@
-#Intermediate
+##Java Intermediate Tutorial
 
 In the beginners tutorial we saw how to declare a root
 and perform some basic operations on it.
@@ -51,14 +51,14 @@ Lets modify our dsl to describe it:
     root Meal(name)
     {
       Cookbook.Recipe(name)* recipe;
-      String                name;
-      boolean               available;
+      String                 name;
+      boolean                available;
 
-      int                   price;
+      int                    price;
     }
 
-This way we expressed that ``Meal`` holds a reference to ``Recipe`` and field ``name``
-which is primary key in Recipe is a field in Meal, which now we can use as a
+This way we expressed that ``Meal`` holds a reference to ``Recipe`` and that field ``name``,
+which is primary key in Recipe, is a field in Meal, which now we can use as a
 primary field in Meal as well.
 
 Using primary keys we can get our recipes from the remote server represented as
@@ -71,7 +71,7 @@ an instance of java class.
 And add them to the Menu:
 
     final Meal [] meals = {
-        new Meal(recipeForPapperedShrimp,true, 20),
+        new Meal(recipeForPapperedShrimp, true, 20),
         new Meal(recipePeanutChicken, true, 23),
         new Meal(recipeOmeletteAuFromage, true, 13)
     };
@@ -87,12 +87,19 @@ Some beverages to go with it:
 
     beverageRepository.insert(Arrays.asList(beverages));
 
-    for( final Meal meal : mealRepository.findAll().get()) info(meal.getName());
-    for( final Beverage beverage : beverageRepository.findAll().get()) info(beverage.getName());
+    for (final Meal meal : mealRepository.findAll().get()) info(meal.getName());
+    for (final Beverage beverage : beverageRepository.findAll().get()) info(beverage.getName());
+
+    Omelette Au Fromage!
+    Peanut Chicken
+    Peppered Shrimp
+    Beer
+    Juice
+    Water
 
 Now we have something to offer.
 
-### Snowflake
+##Snowflake
 Lets make our data a bit presentable. Meal as it is now is an aggregate of more
 than one data source lets make this data presentable
 
@@ -122,7 +129,7 @@ a search:
       int budget;
     }
 
-### Building a search
+##Building a search
 
 To get an instance of ``SearchBuilder`` simply call it from repository you wish to search over.
 
@@ -150,6 +157,7 @@ To define a number of results to be skipped. Alias ``skip``
 
 To define an ordering of search results.
 Also:
+
     descending(String property)
     ascending(String property)
 
@@ -157,6 +165,7 @@ All of this methods return ``this`` which allows easy chaining
 To call run this search, call ``search()`` method which returns ``Future<List<T>>``
 
 example:
+
     List<MealInfo> budgetMeals =
         mealInfoRepository
           .builder()
@@ -167,6 +176,7 @@ example:
           .search().get();
 
 print their names:
+
     Lasagna
     Meatloaf
     Omelette
@@ -180,30 +190,35 @@ If all parameters are left out calling search over that builder is equivalent to
 
 ----------------------------
 
-This is how we might want to present our data to the world, its all information
+This is how we might want to present our data to the world, its all the information
 on a single meal that we might want to, lets say, print on a price list.
+So lets make a simple price list.
 
-## Report
+##Report
 
-So lets make a simple Price List. For this we use ``report`` concept.
+We want to pull all informations relevant to some presentation layer.
+Namely this are all meals and beverages, their names and prices.
+Later maybe some ingredients, date of reporting...
+For this we will use ``report`` concept.
 
     module Menu
     {
       ...
       report BasicPriceList
       {
-        MealInfo meals     'it => it.available';
-        Beverage beverages 'it => it.available';
+        MealInfo [] meals     'it => it.available';
+        Beverage [] beverages 'it => it.available';
       }
     }
 
-After committing our changes new files are added to generated code.
-Amongst them is ``BasicPriceList`` that exposes methods ``getMeals`` and ``getBeverages``
+After committing our changes new files are added to the generated code.
+Amongst them is the ``BasicPriceList`` that exposes methods ``getMeals`` and ``getBeverages``
 
 Use it like this:
 
     BasicPriceList basicpricelist = new BasicPriceList();
     basicpricelist.populate();
+
     for(final MealInfo mi : basicpricelist.getMeals() ) System.out.println( mi.getName() + " "+ mi.getPrice());
     for(final Beverage b : basicpricelist.getBeverages()) System.out.println( b.getName()+ " "+ mi.getPrice());
 
@@ -349,10 +364,12 @@ Now, if we were to print chefsMeals
         Omelette Au Fromage!
 
 
+
 ------
 todo:
 For the conclusion of this part we take a look at [dslCookbook @ github](https://github.com/ngs-doo/dslCookbook)
-to see how could this price list look like if we made it with designer template with 
+to see how could this price list look like if we made it with designer template with
+
     report PriceListPretty
     {
       Timestamp  date;

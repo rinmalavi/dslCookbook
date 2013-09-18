@@ -1,3 +1,5 @@
+##Java basic tutorial
+
 In this tutorial we will show how to write simple model definition and use code generated from it.
 We will show some basic concepts, how to use them, and how to run operations on them.
 
@@ -75,6 +77,7 @@ iterating over result of findAll() helper function:
         info(recipe.getName());
 
 Would produce output:
+
     Pancakes
     Omelette Au Fromage!
 
@@ -171,6 +174,7 @@ Result is:
     Peppered Shrimp
     The old Chevaps
     The old Pancake!
+
 Usually its some random strings, but since our primary key is the name of recipe
 they are the same.
 
@@ -184,7 +188,7 @@ For simplicity lets define:
           final String ... args) {
         if (args.length == 1){
           final String arg = args[0];
-          for( final String ingredient: ingredients)
+          for (final String ingredient: ingredients)
             if( ingredient.contains(arg)) return ingredients;
           final String[] newArray = (String [])Arrays.copyOf(ingredients, ingredients.length + 1);
           newArray[ingredients.length] = arg;
@@ -202,7 +206,7 @@ For simplicity lets define:
 
 Add sugar to every recipe:
 
-    for( Recipe recipe: recipeRepository.findAll().get()) {
+    for (Recipe recipe : recipeRepository.findAll().get()) {
       recipe.setIngredients(addIfNotThere(recipe.getIngredients(), "sugar"));
     }
 
@@ -217,7 +221,7 @@ Lets add functionality telling us which recipe is "ye olde":
 
 Now we can use it this way:
 
-    for( Recipe recipe: new isTheOld().search()){
+    for (Recipe recipe: new isTheOld().search()){
         info( recipe.getName());
 
 Which will naturally produce nothing.
@@ -259,7 +263,7 @@ Lets insert more recipes:
 Insert it:
 
     recipeRepository.insert(anArrayOfYeOldies).get(); // get to wait till it finished!
-    for( Recipe recipe: new isTheOld().search()){
+    for (Recipe recipe : new isTheOld().search()){
         info(recipe.getName());
 
 Output:
@@ -278,7 +282,7 @@ In dsl:
 
 In Java:
 
-    for( Recipe recipe: new hasFlour().search()){
+    for (Recipe recipe : new hasFlour().search()){
         info(recipe.getName());
 
 Would produce:
@@ -295,7 +299,7 @@ In dsl:
 
 In Java:
 
-    for( Recipe recipe: new hasNoPeanuts().search()){
+    for (Recipe recipe : new hasNoPeanuts().search()){
         info(recipe.getName());
 
 Recipes containing no mention of word peanut are:
@@ -310,13 +314,13 @@ Recipes containing no mention of word peanut are:
 
 This might be too much results for one page, so you will set the offset, and limit:
 
-    for( Recipe recipe: new hasNoPeanuts().search(2, 0)){
+    for (Recipe recipe : new hasNoPeanuts().search(2, 0)){
         info(recipe.getName());
 
     Omelette Au Fromage!
     Omelette!
 
-    for( Recipe recipe: new hasNoPeanuts().search(2, 2)){
+    for (Recipe recipe : new hasNoPeanuts().search(2, 2)){
         info(recipe.getName());
 
     Pancakes with nuttela
@@ -324,7 +328,7 @@ This might be too much results for one page, so you will set the offset, and lim
 
 To be able to search over ingredients searching for custom ingredient add following to our root:
 
-    specification hasIngredient 
+    specification hasIngredient
         'it => it.ingredients.Any(ingredient => ingredient.ToLower().Contains(what))'
         {
             String what;
@@ -341,7 +345,7 @@ That is by passing a specification to a repository instance as an argument of se
 
 It will instantly return Future&lt;List&lt;Recipe&gt;&gt;. So later we can:
 
-    for( final Recipe recipeWithWhat: futureResult.get()) {
+    for (final Recipe recipeWithWhat : futureResult.get()) {
         info("    " + recipeWithWhat.getName());
       }
 
@@ -356,7 +360,7 @@ Like with the blocking search you can set the limit and the offset.
 
 It will instantly return Future&lt;List&lt;Recipe&gt;&gt;. So later we can:
 
-    for( final Recipe recipeWithWhat: futureResult.get()) {
+    for (final Recipe recipeWithWhat : futureResult.get()) {
         info("    " + recipeWithWhat.getName());
       }
 

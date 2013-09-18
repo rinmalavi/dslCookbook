@@ -70,5 +70,11 @@ public abstract class OpenRestaurantInTest {
         fileOutputStream.close();
         return data;
     }
+    public static void info(final String arg) {
+        System.out.println(arg);
+    }
 
+    public static void info(final String[] args) {
+        for (String arg : args) info("  " + arg);
+    }
 }

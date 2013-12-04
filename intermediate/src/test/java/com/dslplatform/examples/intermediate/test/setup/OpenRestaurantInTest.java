@@ -25,7 +25,7 @@ public abstract class OpenRestaurantInTest {
     protected MealRepository mealRepository;
     protected MealInfoRepository mealInfoRepository;
     protected BeverageRepository beverageRepository;
-
+    protected ServiceLocator locator;
     @Before
     /**  This function illustrates how to perform an application setup. */
     public void setUp() throws Exception {
@@ -34,7 +34,7 @@ public abstract class OpenRestaurantInTest {
         final String pathname = pathnameRaw;
 
          // 1. instantate a locator form the project.ini
-        ServiceLocator locator = Bootstrap.init(pathname);
+        locator = Bootstrap.init(pathname);
         restaurant = new Restaurant(locator);
         // 2. Grab instance of whatever repository
         //    you wish to use from this locator

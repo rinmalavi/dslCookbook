@@ -3,7 +3,7 @@ import Keys._
 
 object Cookbook extends Build {
 
-  lazy val dslClientHttp = ProjectRef( file("../dsl-client-java/code/"), "http")
+  //lazy val dslClientHttp = ProjectRef( file("../dsl-client-java/code/"), "http")
   
   lazy val beginner = cookProject("Beginner") 
 
@@ -16,7 +16,7 @@ object Cookbook extends Build {
   
   val commonsIo = "commons-io" % "commons-io" % "2.4"
   
-  //val dslClientHttp = "com.dslplatform" % "dsl-client-http" % "0.4.1"
+  val dslClientHttp = "com.dslplatform" % "dsl-client-http" % "0.4.13"
   
   val jackson = "com.fasterxml.jackson.core" % "jackson-databind" % "2.1.3"
   
@@ -34,7 +34,6 @@ object Cookbook extends Build {
   , file(id.toLowerCase)
   , settings = 
       Defaults.defaultSettings ++
-      Resolvers.settings ++
       eclipseSettings ++
       graphSettings ++ Seq(
         version := "0.0.0"
@@ -55,7 +54,16 @@ object Cookbook extends Build {
       , unmanagedSourceDirectories in Test <<= (javaSource in Test)(_ :: Nil)
       , unmanagedResourceDirectories in Compile <<= (resourceDirectory in Compile)( src => src :: src / ".." / ".." / "generated" / "resources" :: Nil )
     )
-  ) dependsOn(dslClientHttp)
+  ) inject(dslClientHttp)
+  
+  implicit class PimpedProjectHost(project: Project) {
+
+    def inject(attachment: ProjectRef): Project = 
+      project dependsOn attachment
+      
+    def inject(attachment: ModuleID): Project = 
+      project settings {libraryDependencies += attachment}
+  }
   
   private object ScalaOptions {
     val scala2_8 = Seq(
@@ -95,20 +103,3 @@ object Cookbook extends Build {
     } )
   }
 }
-
-object Repositories {
-  val NGSNexus                   = "NGS Nexus"                  at "http://ngs.hr/nexus/content/groups/public/"
-  val NGSSnapshots               = "NGS Private Snapshots"      at "http://ngs.hr/nexus/content/repositories/snapshots-private/"
-}
-
-object Resolvers {
-  import Repositories._
-
-  val settings = Seq(
-    resolvers := Seq(NGSNexus, NGSSnapshots)
-  , externalResolvers <<= resolvers map { r =>
-      Resolver.withDefaultResolvers(r, mavenCentral = false)
-    }
-  )
-}
-
